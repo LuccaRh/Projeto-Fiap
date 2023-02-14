@@ -31,7 +31,8 @@ namespace ProjetoEstágioFiap.Controllers
         {
             try
             {
-                return Ok(_VarejoBLL.Listar(usuario));
+                var listagem = _VarejoBLL.Listar(usuario);
+                return Ok(listagem);
             }
             catch(Exception ex)
             {

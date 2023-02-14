@@ -13,6 +13,7 @@ namespace ApiVarejo.DAL.Utilitários
 {
     public class MétodosDAL
     {
+        //string de cadastro da query sql, pegando cada propriedade que não foi passada como null
         public string StringCadastro()
         {
             //loop para pegar o nome de cada propriedade do objeto, inserir elas no query
@@ -37,26 +38,30 @@ namespace ApiVarejo.DAL.Utilitários
             query = query.TrimEnd(',') + ")";
             return query;
         }
+        //string de filtrar usuarios, pegando todos os usuarios que possuem as mesmas propriedades passadas pelo request
         public string StringListagem2(Usuário usuario, ref bool filtragem, string query)
         {
             PropertyInfo[] propriedades = usuario.GetType().GetProperties();
-            foreach(PropertyInfo propriedade in propriedades)
+            foreach (PropertyInfo propriedade in propriedades)
             {
                 var valor = propriedade.GetValue(usuario, null);
-                if (valor != null)
+                if (propriedade.PropertyType == typeof(string))
                 {
-                    if (filtragem)
+                    if (valor != null)
                     {
-                        query += " AND";
+                        if (filtragem)
+                        {
+                            query += " AND";
+                        }
+                        else
+                        {
+                            query += " WHERE";
+                            filtragem = true;
+                        }
+                        string nomePropriedade = propriedade.Name;
+                        string nomePropriedadeMaiusculo = char.ToUpper(propriedade.Name[0]) + propriedade.Name.Substring(1);
+                        query += String.Format(" {0} like @{1}", nomePropriedadeMaiusculo, nomePropriedade);
                     }
-                    else
-                    {
-                        query += " WHERE";
-                        filtragem = true;
-                    }
-                    string nomePropriedade = propriedade.Name;
-                    string nomePropriedadeMaiusculo = char.ToUpper(nomePropriedade[0]) + nomePropriedade.Substring(1);
-                    query += String.Format(" {0} = @{1}", nomePropriedadeMaiusculo, nomePropriedade);
                 }
             }
             return query;
@@ -82,6 +87,8 @@ namespace ApiVarejo.DAL.Utilitários
             }
             return query;
         }*/
+
+        //string de atualizar usuario, mudando valores que foram passados no request
         public string StringAtualizar()
         {
             string query = @"UPDATE SiteVarejoFiap.dbo.Varejo SET";
@@ -90,10 +97,10 @@ namespace ApiVarejo.DAL.Utilitários
             foreach (PropertyInfo propriedade in propriedades)
             {
                 string nomePropriedade = propriedade.Name;
-                if (nomePropriedade == "id") { continue; } 
+                if (nomePropriedade == "id") { continue; }
                 string nomePropriedadeMaiusculo = char.ToUpper(nomePropriedade[0]) + nomePropriedade.Substring(1);
                 query += String.Format(" {0} = ISNULL(@{1},{2}),", nomePropriedadeMaiusculo, nomePropriedade, nomePropriedadeMaiusculo);
-            }      
+            }
             query = query.TrimEnd(',');
             query += " WHERE Id = @id;";
             return query;

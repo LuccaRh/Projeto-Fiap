@@ -26,6 +26,7 @@ namespace ApiVarejo.BLL
             usuario.telefone = _MetodosBLL.CorreçãoTelefone(usuario.telefone);
             usuario.cpf = _MetodosBLL.CorreçãoCPF(usuario.cpf);
             usuario.dataDeNascimento = _MetodosBLL.CorreçãoDataDeNascimento(usuario.dataDeNascimento);
+
             if (!_VarejoDAL.Cadastrar(usuario))
             {
                 throw new Exception("Erro ao cadastrar.");
@@ -44,6 +45,7 @@ namespace ApiVarejo.BLL
             usuario.telefone = _MetodosBLL.CorreçãoTelefone(usuario.telefone);
             usuario.cpf = _MetodosBLL.CorreçãoCPF(usuario.cpf);
             usuario.dataDeNascimento = _MetodosBLL.CorreçãoDataDeNascimento(usuario.dataDeNascimento);
+
             if (!_VarejoDAL.Atualizar(usuario))
             {
                 throw new Exception("Erro ao atualizar.");

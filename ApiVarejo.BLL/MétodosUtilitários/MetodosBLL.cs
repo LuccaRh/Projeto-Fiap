@@ -13,6 +13,7 @@ namespace ApiVarejo.BLL.MétodosUtilitários
 {
     public class MetodosBLL
     {
+        //Impedir que o tamanho da string passe de um valor, que é o colocado pelo banco de dados
         public void ExcessaoTamanho(Usuário usuario, string property, int tamanho)
         {
             PropertyInfo propriedade = usuario.GetType().GetProperty(property);
@@ -25,6 +26,7 @@ namespace ApiVarejo.BLL.MétodosUtilitários
                 throw new Exception(erro);
             }
         }
+        //Impedir que string seja nula, ou que o seu tamanho seja muito grande
         public void ExcessaoNullTamanho(Usuário usuario, string property, int tamanho)
         {
             PropertyInfo propriedade = usuario.GetType().GetProperty(property);
@@ -52,22 +54,23 @@ namespace ApiVarejo.BLL.MétodosUtilitários
                 throw new Exception("Utilizar apenas letras no nome por favor.");
             }
         }
+        //Arrumar data de nascimento, apenas liberando datas no formato certo
         public string CorreçãoDataDeNascimento(string dataDeNascimento)
         {
             if (dataDeNascimento == null)
             {
                 return null;
             }
-            bool validação = dataDeNascimento.All(c => Char.IsDigit(c) || c == '/');
+            bool validação = dataDeNascimento.All(c => Char.IsDigit(c) || c == '-');
             if (!validação)
             {
-                throw new Exception("Utilizar apenas números e \"/\" para digitar a sua data de nascimento por favor. (xx/xx/xxxx)");
+                throw new Exception("Utilizar apenas números e \"-\" para digitar a sua data de nascimento por favor. (xx-xx-xxxx)");
             }
             dataDeNascimento = new string(dataDeNascimento.Where(char.IsDigit).ToArray());
             int size = dataDeNascimento.Length;
             if (size != 8)
             {
-                throw new Exception("Utilizar a quantidade certa de número para a data de nascimento por favor. (xx/xx/xxxx)");
+                throw new Exception("Utilizar a quantidade certa de número para a data de nascimento por favor. (xx-xx-xxxx)");
             }
             int dia = int.Parse(dataDeNascimento.Substring(0, 2));
             if (dia > 31) { throw new Exception("Utilize um dia válido por favor."); }
@@ -75,9 +78,10 @@ namespace ApiVarejo.BLL.MétodosUtilitários
             if (mes > 12) { throw new Exception("Utilize um mês válido por favor."); }
             int ano = int.Parse(dataDeNascimento.Substring(4));
             if (ano > 2023 | ano < 1907) { throw new Exception("Utilize um ano válido por favor."); }
-            dataDeNascimento = dia + "/" + mes + "/" + ano;
+            dataDeNascimento = dia + "-" + mes + "-" + ano;
             return dataDeNascimento;
         }
+        //Arrumar cpf, apenas liberando cpfs no formato certo
         public string CorreçãoCPF(string cpf)
         {
             if (cpf == null)
@@ -98,6 +102,7 @@ namespace ApiVarejo.BLL.MétodosUtilitários
             cpf = cpf.Substring(0, size - 2) + "/" + cpf.Substring(size - 2);
             return cpf;
         }
+        //Arrumar telefones, apenas liberando telefones no formato certo
         public string CorreçãoTelefone(string telefone)
         {
             
@@ -106,7 +111,7 @@ namespace ApiVarejo.BLL.MétodosUtilitários
                 return null;
             }
             bool validação = telefone.All(c => Char.IsDigit(c) || Char.IsWhiteSpace(c) || c == '(' || c == ')' || c == '-');
-            if (!validação)
+            if (!validação) 
             {
                 throw new Exception("Utilizar apenas números, ou formatação usual do telefone por favor.");
             }
