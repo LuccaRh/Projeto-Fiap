@@ -1,7 +1,7 @@
 # ProjetoFiap
 Projeto de prova de estágio fiap
 
-A prova é uma simulação da criação de uma landpage para a uma grande empresa de varejo. Esse github é a parte do backend do site.
+A prova é uma simulação da criação de uma landpage para a uma grande empresa de varejo. Esse github é a parte do **Backend** do site.
 Ele foi feito utilizando a linguagem c# no .net 6, com visual studio 2022, com as bibliotecas Dapper e MySqlClient. O banco de dados usado foi o sql server, com microsoft managment studio 18.
 ## Divisão do projeto
 o projeto foi dividido em 4 partes:
