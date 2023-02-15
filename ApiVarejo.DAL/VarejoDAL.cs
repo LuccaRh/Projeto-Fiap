@@ -18,13 +18,10 @@ namespace ApiVarejo.DAL
             connection.Execute(query, usuario);
             return true;
         }
-        //Procura de usuario por nome ou email
         public List<Usuário> Listar(Usuário usuario)
         {
             using var connection = new BdConnection().AbrirConexao();
             string query = "SELECT * FROM SiteVarejoFiap.dbo.Varejo";
-            //query = _MétodoDAL.StringListagem(usuario, "nome", ref filtragem, query);
-            //query = _MétodoDAL.StringListagem(usuario, "email", ref filtragem, query);
             query = _MétodoDAL.StringListagem2(usuario, query);
             var lista = connection.Query<Usuário>(query, usuario) as List<Usuário>;
             return lista;

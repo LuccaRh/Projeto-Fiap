@@ -66,29 +66,7 @@ namespace ApiVarejo.DAL.Utilitários
             }
             return query;
         }
-        /*
-        public string StringListagem(Usuário usuario, string property, ref bool filtragem, string query)
-        {
-            PropertyInfo propriedade = usuario.GetType().GetProperty(property);
-            var valor = propriedade.GetValue(usuario, null);
-            if (valor != null)
-            {
-                if (filtragem)
-                {
-                    query += " AND";
-                }
-                else
-                {
-                    query += " WHERE";
-                    filtragem = true;
-                }
-                string propriedadeMaiusculo = char.ToUpper(property[0]) + property.Substring(1);
-                query += String.Format(" {0} = @{1}", propriedadeMaiusculo, property);
-            }
-            return query;
-        }*/
-
-        //string de atualizar usuario, mudando valores que foram passados no request
+       
         public string StringAtualizar()
         {
             string query = @"UPDATE SiteVarejoFiap.dbo.Varejo SET";
