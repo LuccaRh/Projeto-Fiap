@@ -10,6 +10,9 @@ o projeto foi dividido em 4 partes:
 * DAL
 
 MOD é o objeto utilizado no projeto. Ele tem os parâmetros baseados nas colunas do sql, ou seja: Nome, Email, Telefone, Cpf, Data de Nascimento e Id.
+
 Controller é a comunicação desta parte do projeto com o FrontEnd, ele possui todos os métodos http usados nele.
+
 BLL é o intermediário entre a Controller e a DAL, ele quem faz o "filtro" dos valores enviados pela controller, para a DAL.
+
 DAL é a comunicação com o banco de dados (sql server), assim pegando ou enviando informações para ele.
