@@ -23,11 +23,10 @@ namespace ApiVarejo.DAL
         {
             using var connection = new BdConnection().AbrirConexao();
             string query = "SELECT * FROM SiteVarejoFiap.dbo.Varejo";
-            bool filtragem = false;
             //query = _MétodoDAL.StringListagem(usuario, "nome", ref filtragem, query);
             //query = _MétodoDAL.StringListagem(usuario, "email", ref filtragem, query);
-            query = _MétodoDAL.StringListagem2(usuario, ref filtragem, query);
-            var lista = connection.Query<Usuário>(query, new { nome = "%"+usuario.nome+"%",email = "%" + usuario.email + "%",telefone =  "%" + usuario.telefone + "%", dataDeNascimento = "%" + usuario.dataDeNascimento + "%",cpf = "%" + usuario.cpf + "%" }) as List<Usuário>;
+            query = _MétodoDAL.StringListagem2(usuario, query);
+            var lista = connection.Query<Usuário>(query, usuario) as List<Usuário>;
             return lista;
         }
         public bool Atualizar(Usuário usuario)

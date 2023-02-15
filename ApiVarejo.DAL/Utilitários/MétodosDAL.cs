@@ -39,30 +39,30 @@ namespace ApiVarejo.DAL.Utilitários
             return query;
         }
         //string de filtrar usuarios, pegando todos os usuarios que possuem as mesmas propriedades passadas pelo request
-        public string StringListagem2(Usuário usuario, ref bool filtragem, string query)
+        public string StringListagem2(Usuário usuario, string query)
         {
+            bool filtragem = false;
             PropertyInfo[] propriedades = usuario.GetType().GetProperties();
             foreach (PropertyInfo propriedade in propriedades)
             {
                 var valor = propriedade.GetValue(usuario, null);
-                if (propriedade.PropertyType == typeof(string))
+                string nomePropriedade = propriedade.Name;
+                if (nomePropriedade == "id") { continue; }
+                if (valor != null)
                 {
-                    if (valor != null)
+                    if (filtragem)
                     {
-                        if (filtragem)
-                        {
-                            query += " AND";
-                        }
-                        else
-                        {
-                            query += " WHERE";
-                            filtragem = true;
-                        }
-                        string nomePropriedade = propriedade.Name;
-                        string nomePropriedadeMaiusculo = char.ToUpper(propriedade.Name[0]) + propriedade.Name.Substring(1);
-                        query += String.Format(" {0} like @{1}", nomePropriedadeMaiusculo, nomePropriedade);
+                        query += " AND";
                     }
+                    else
+                    {
+                        query += " WHERE";
+                        filtragem = true;
+                    }
+                    string nomePropriedadeMaiusculo = char.ToUpper(propriedade.Name[0]) + propriedade.Name.Substring(1);
+                    query += String.Format(" {0} = @{1}", nomePropriedadeMaiusculo, nomePropriedade);
                 }
+
             }
             return query;
         }
