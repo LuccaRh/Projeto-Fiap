@@ -66,12 +66,14 @@ namespace ApiVarejo.BLL.MétodosUtilitários
             {
                 throw new Exception("Utilizar apenas números e \"-\" para digitar a sua data de nascimento por favor. (xx-xx-xxxx)");
             }
+            //Remove tudo que não seja número da string
             dataDeNascimento = new string(dataDeNascimento.Where(char.IsDigit).ToArray());
             int size = dataDeNascimento.Length;
             if (size != 8)
             {
                 throw new Exception("Utilizar a quantidade certa de número para a data de nascimento por favor. (xx-xx-xxxx)");
             }
+            //Verificação de data válida e formatação certa xx-xx-xxxx
             int dia = int.Parse(dataDeNascimento.Substring(0, 2));
             if (dia > 31) { throw new Exception("Utilize um dia válido por favor."); }
             int mes = int.Parse(dataDeNascimento.Substring(2, 2));
@@ -93,12 +95,14 @@ namespace ApiVarejo.BLL.MétodosUtilitários
             {
                 throw new Exception("Utilizar apenas números e \"/\" para digitar o cpf por favor.");
             }
+            //Remove tudo que não seja número da string
             cpf = new string(cpf.Where(char.IsDigit).ToArray());
             int size = cpf.Length;
             if (size != 11)
             {
                 throw new Exception("Utilizar a quantidade certa de números de um cpf (11) por favor.");
             }
+            //Transformar para formatação usual de cpf xxxxxxxxx/xx
             cpf = cpf.Substring(0, size - 2) + "/" + cpf.Substring(size - 2);
             return cpf;
         }
@@ -115,6 +119,7 @@ namespace ApiVarejo.BLL.MétodosUtilitários
             {
                 throw new Exception("Utilizar apenas números, ou formatação usual do telefone por favor.");
             }
+            //Remove tudo que não seja número da string
             telefone = new string(telefone.Where(char.IsDigit).ToArray());
             int size = telefone.Length;
 
@@ -137,6 +142,7 @@ namespace ApiVarejo.BLL.MétodosUtilitários
             {
                 throw new Exception("Utilizar a quantidade certa de números de um celular/telefone (11/10) por favor.");
             }
+            //Transformar para formatação usual de telefone (xx) xxxxx-xxxx
             string um = telefone.Substring(0, 1);
             string dois = telefone.Substring(1, 1);
             string tres = string.Format("({0}{1}) {2}", um, dois, telefone.Substring(2));
